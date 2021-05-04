@@ -8,6 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
+      - name: Wait for test
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-build
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: test
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: automerge
         uses: actions/github-script@0.2.0
         with:
